@@ -1,0 +1,26 @@
+language: php
+dist: trusty
+
+php:
+    - 7.1
+    - 7.2
+    - 7.3
+
+env:
+    - TESTER_PHP_BIN="php-cgi"
+    - TESTER_PHP_BIN="php"
+
+before_install:
+    - composer self-update
+
+install:
+    - composer install --no-interaction
+
+script:
+    - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php-travis.ini -i
+    - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php-travis.ini ./tests
+
+after_failure:
+    # Print *.actual content & log content
+    - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+    - for i in $(find tests -name \*.log); do echo "--- $i"; cat $i; echo; echo; done
