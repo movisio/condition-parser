@@ -1,11 +1,10 @@
 {
-  "name": "movisio/conditionparser",
+  "name": "movisio/condition-parser",
   "type": "library",
   "description": "Movisio Condition parser",
   "keywords": ["nette", "condition", "parsing", "movisio"],
   "homepage": "https://movisio.com",
   "license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
-  "version": "1.0.1",
   "require": {
     "php": ">=7.0",
     "ext-tokenizer": "*"
@@ -13,11 +12,6 @@
   "autoload": {
     "psr-4": {
       "Movisio\\ConditionParser\\": "src/"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0"
     }
   },
   "require-dev": {
