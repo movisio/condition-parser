@@ -1,0 +1,4 @@
+vendor/*
+tests/ConditionParser/output
+composer.lock
+composer.phar
