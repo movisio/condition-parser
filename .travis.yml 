@@ -1,23 +1,26 @@
 language: php
 
+dist: trusty
+
 php:
-  - '7.1'
-  - '7.2'
-  - '7.3'
+    - 7.1
+    - 7.2
+    - 7.3
 
 env:
-  - TESTER_PHP_BIN="php-cgi"
-  - TESTER_PHP_BIN="php"
+    - TESTER_PHP_BIN="php-cgi"
+    - TESTER_PHP_BIN="php"
 
 before_install:
-  - composer self-update
+    - composer self-update
 
 install:
-  - composer install --no-interaction --prefer-source
+    - composer install --no-interaction --prefer-source
 
 script:
-  - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php.ini ./tests
+    - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php.ini ./tests
 
 after_failure:
-  # Print content of files  *.actual
-  - for i in $(find ./tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+    # Print *.actual content & log content
+    - for i in $(find tests -name \*.actual); do echo "--- $i"; cat $i; echo; echo; done
+    - for i in $(find tests -name \*.log); do echo "--- $i"; cat $i; echo; echo; done
