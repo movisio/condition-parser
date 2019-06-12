@@ -52,6 +52,16 @@ class Unary implements OperatorInterface
      */
     public function __toString() : string
     {
-        return "($this->operator $this->subExpr)";
+        switch ($this->operator) {
+            case T_EMPTY:
+                return "(empty($this->subExpr))";
+            break;
+            case '!':
+                return "(! $this->subExpr)";
+            break;
+            default:
+                throw new \Exception("Unary operator $this->operator not implemented");
+            break;
+        }
     }
 }

@@ -74,6 +74,7 @@ class ConditionParser
         T_BOOLEAN_AND => 2,
         T_OBJECT_OPERATOR => 2,
         '!' => 1,
+        T_EMPTY => 1,
     ];
 
     /**
@@ -134,12 +135,18 @@ class ConditionParser
                     $var = new Property($varName);
                     array_push($stack, $var);
                     break;
+                case T_LNUMBER:
+                    $val = new Value(intval($token[1]));
+                    array_push($stack, $val);
+                    break;
+                case T_DNUMBER:
+                    $val = new Value(\floatval($token[1]));
+                    array_push($stack, $val);
+                    break;
                 case T_CONSTANT_ENCAPSED_STRING:
                     // contains string + opening and closing "/'
                     $token[1] = trim($token[1], '"\'');
                     // no break
-                case T_LNUMBER:
-                case T_DNUMBER:
                 case T_CONST:
                     $val = new Value($token[1]);
                     array_push($stack, $val);
