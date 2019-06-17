@@ -27,13 +27,10 @@ class Unary implements OperatorInterface
         switch ($this->operator) {
             case T_EMPTY:
                 return ! count($this->subExpr->evaluate($variables));
-            break;
             case '!':
                 return ! $this->subExpr->evaluate($variables);
-            break;
             default:
                 throw new \Exception("Unary operator $this->operator not implemented");
-            break;
         }
     }
 
@@ -55,13 +52,10 @@ class Unary implements OperatorInterface
         switch ($this->operator) {
             case T_EMPTY:
                 return "(empty($this->subExpr))";
-            break;
             case '!':
                 return "(! $this->subExpr)";
-            break;
             default:
                 throw new \Exception("Unary operator $this->operator not implemented");
-            break;
         }
     }
 }
