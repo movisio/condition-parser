@@ -2,9 +2,14 @@
 
 A simple condition parsing and evaluation library. Shunting-yard algorithm for parsing strings to expression trees that can ben evaluated later. Supports variables that can be set for each evaluation.
 
+Installation:
+```
+composer require movisio/condition-parser
+```
+
 Example usage:
 ```
-$expression = ConditionParser::parse(̈́'$deleted == 0 && $id > 1');
+$expression = ConditionParser::parse('$deleted == 0 && $id > 1');
 $conditionObject = new ArrayObject($userEntityData);
 $can_be_deleted = $expression->evaluate($conditionObject)
 ```
