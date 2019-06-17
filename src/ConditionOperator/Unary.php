@@ -55,7 +55,8 @@ class Unary implements OperatorInterface
             case '!':
                 return "(! $this->subExpr)";
             default:
-                throw new \Exception("Unary operator $this->operator not implemented");
+                // toString() is not allowed to throw exceptions
+                return "($this->operator($this->subExpr))";
         }
     }
 }

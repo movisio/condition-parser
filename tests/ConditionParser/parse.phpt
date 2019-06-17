@@ -11,8 +11,8 @@ Environment::setup();
 class ConditionParserTests extends Tester\TestCase
 {
     /*
-     * data provider pro nasobne testovani v jednom behu
-     * 3 parametry - podminka, testovaci vstup, ocekavany vystup
+     * data provider
+     * 3 parameters - conditiom, test input, expected output
      */
     public function getValidConditions()
     {
@@ -110,8 +110,8 @@ class ConditionParserTests extends Tester\TestCase
     }
 
     /*
-     * data provider pro nasobne testovani v jednom behu
-     * 2 parametry - vstupni podminka, ocekavany vystup
+     * data provider
+     * 2 parameters - input condition, expected output
      */
     public function getConditionsToString()
     {
@@ -161,37 +161,26 @@ class ConditionParserTests extends Tester\TestCase
     }
 
     /*
-     * kroky pred pustenim kazdeho jednoho testu
+     * execute before each test
      */
     public function setUp()
     {
     }
 
     /*
-     * kroky po skonceni kazdeho jednoho testu
+     * execute after each test
      */
     public function tearDown()
     {
     }
 
     /**
-     * ma vraceny objekt metodu evaluate() ?
-     * z dataProvideru pouzivam jen podminku, zbytek nepotrebuji
+     * is it possible to evaluate() the parsed condition?
+     * only first field used from dataProvider
      * @dataProvider getValidConditions
      */
     public function testOne($condition)
     {
-          // lze pouzit custom callback pres Expect::that
-          /*
-            Assert::equal(
-              Expect::that(function ($value) {
-                return method_exists($value, 'evaluate');
-              }),
-              ConditionParser::parse($condition)
-            );
-          */
-
-          // lze pouzit i jednoduche true/false porovnani na existenci metody
           Assert::true(
               method_exists(ConditionParser::parse($condition), 'evaluate'),
               'Class does not have method "evaluate"'
@@ -199,7 +188,7 @@ class ConditionParserTests extends Tester\TestCase
     }
 
     /**
-     * implementuje vraceny objekt interace OperatorInterface ?
+     * does the parsed expression object implement OperatorInterface ?
      * @dataProvider getValidConditions
      */
     public function testTwo($condition)
@@ -216,8 +205,7 @@ class ConditionParserTests extends Tester\TestCase
     }
 
     /**
-     * testuju korektnost vracene hodnoty na zaklade vstupni podminky a testovacich hodnot
-     * z dataProvideru pouzivam podminku, testovaci vstup i ocekavany vystup
+     * test valid conditions and their return values
      * @dataProvider getValidConditions
      */
     public function testThree($condition, $testValues, $expectedResult)
@@ -228,14 +216,46 @@ class ConditionParserTests extends Tester\TestCase
     }
 
     /**
-     * testuju korektnost prevodu zpet na string
-     * z dataProvideru pouzivam podminku a ocekavany vystup
+     * test toString
      * @dataProvider getConditionsToString
      */
     public function testToString($condition, $expectedResult)
     {
         $expression = ConditionParser::parse($condition);
         Assert::equal((string)$expression, $expectedResult);
+    }
+
+    /**
+     * test invalid inputs
+     */
+    public function testExceptions()
+    {
+      Assert::exception(function () { $expression = ConditionParser::parse(""); }, InvalidArgumentException::class, '#empty#i');
+      Assert::exception(function () { $expression = ConditionParser::parse("*"); }, InvalidArgumentException::class, '#\*#');
+
+      $expression = ConditionParser::parse('$a');
+      Assert::exception(function () use ($expression) { $expression->evaluate(); }, ArgumentCountError::class);
+
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject([])); }, InvalidArgumentException::class, '#not defined#i');
+
+      $expression = ConditionParser::parse('$a->b');
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject(['a' => 1])); }, TypeError::class, '#ArrayAccess#i');
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject(['a' => new ArrayObject([])])); }, InvalidArgumentException::class, '#not defined#i');
+
+      $expression = new \Movisio\ConditionParser\ConditionOperator\Unary('-', new \Movisio\ConditionParser\ConditionOperator\Value(1));
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject([])); }, Exception::class, '#not implemented#i');
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject([])); }, Exception::class, '#-#i');
+
+      $tmp = (string)$expression;
+      Assert::match('#1#i', $tmp);
+      Assert::match('#\-#i', $tmp);
+
+      $expression = new \Movisio\ConditionParser\ConditionOperator\Binary('+', new \Movisio\ConditionParser\ConditionOperator\Value(1), new \Movisio\ConditionParser\ConditionOperator\Value(1));
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject([])); }, Exception::class, '#not implemented#i');
+      Assert::exception(function () use ($expression) { $expression->evaluate(new ArrayObject([])); }, Exception::class, '#\+#i');
+
+      $tmp = (string)$expression;
+      Assert::equal('(1 + 1)', $tmp);
     }
 }
 
