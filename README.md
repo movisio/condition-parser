@@ -16,6 +16,10 @@ $can_be_deleted = $expression->evaluate($conditionObject)
 Once parsed $expression object can be evaluated multiple times with different data.
 The `parse()` method requires an object implementing the \ArrayAccess interface currently because we use it mostly with ORM entities that can implement it and because at the moment it is not possible to type-hint to `array` and `\ArrayAccess` at the same time. 
 
+v1.0.2
+- tests for invalid inputs
+- remove forbidden throw from __toString()
+
 v1.0.1
 - more unit tests
 - fixes

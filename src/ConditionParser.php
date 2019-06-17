@@ -107,7 +107,7 @@ class ConditionParser
 
             // T_STRING is returned for function names, reserved words etc
             // we read only true and false as consts
-            // isNull or functions have to be hadnled differently
+            // isNull or functions have to be handled differently
             if ($tokenId === T_STRING) {
                 switch (strtolower($token[1])) {
                     case 'true':
@@ -201,7 +201,6 @@ class ConditionParser
 
                 default:
                     throw new \InvalidArgumentException("Can not parse $tokenName");
-                    break;
             }
         }
         // process remaining operators
