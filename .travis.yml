@@ -6,19 +6,27 @@ php:
     - 7.2
     - 7.3
 
-env:
-    - TESTER_PHP_BIN="php-cgi"
-    - TESTER_PHP_BIN="php"
-
 before_install:
     - composer self-update
+
+before_script:
+    - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then NTESTER_FLAGS="-p phpdbg --coverage ./coverage.xml --coverage-src ./src"; else NTESTER_FLAGS=""; fi
+    - phpenv config-rm xdebug.ini || true
+
 
 install:
     - composer install --no-interaction
 
 script:
-    - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php-travis.ini -i
-    - ./vendor/bin/tester -p $TESTER_PHP_BIN -s -c ./tests/php-travis.ini ./tests
+    - ./vendor/bin/tester $NTESTER_FLAGS -s -c ./tests/php-travis.ini -i
+    - ./vendor/bin/tester $NTESTER_FLAGS -s -c ./tests/php-travis.ini ./tests
+
+after_script:
+    - if [ "$TRAVIS_PHP_VERSION" == "7.2" ]; then
+      wget https://github.com/php-coveralls/php-coveralls/releases/download/v2.1.0/php-coveralls.phar
+      && php php-coveralls.phar --verbose --config tests/.coveralls.yml
+      || true;
+      fi
 
 after_failure:
     # Print *.actual content & log content
