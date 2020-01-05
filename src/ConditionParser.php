@@ -118,7 +118,10 @@ class ConditionParser
                         $tokenId = T_CONST;
                         $token[1] = false;
                         break;
-
+                    case 'null':
+                        $tokenId = T_CONST;
+                        $token[1] = null;
+                        break;
                     default:
                         break;
                 }
