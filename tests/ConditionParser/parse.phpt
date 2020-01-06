@@ -224,7 +224,6 @@ class ConditionParserTests extends Tester\TestCase
     {
         $expression = ConditionParser::parse($condition);
         Assert::equal((string)$expression, $expectedResult);
-        Assert::equal(1, 2);
     }
 
     /**
