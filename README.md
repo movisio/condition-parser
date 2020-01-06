@@ -19,6 +19,7 @@ The `parse()` method requires an object implementing the \ArrayAccess interface 
 v1.0.2
 - tests for invalid inputs
 - remove forbidden throw from __toString()
+- add parsing of null
 
 v1.0.1
 - more unit tests
