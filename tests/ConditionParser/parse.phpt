@@ -22,6 +22,7 @@ class ConditionParserTests extends Tester\TestCase
             // constants
             ['true', [], true],
             ['false', [], false],
+            ['null', [], null],
             // neg
             ['!true', [], false],
             ['!false', [], true],
@@ -223,6 +224,7 @@ class ConditionParserTests extends Tester\TestCase
     {
         $expression = ConditionParser::parse($condition);
         Assert::equal((string)$expression, $expectedResult);
+        Assert::equal(1, 2);
     }
 
     /**
