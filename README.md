@@ -1,4 +1,4 @@
-# Condition Parser [![Build Status](https://travis-ci.org/movisio/condition-parser.svg?branch=master)](https://travis-ci.org/movisio/condition-parser) [![Coverage Status](https://coveralls.io/repos/github/movisio/condition-parser/badge.svg?branch=master)](https://coveralls.io/github/movisio/condition-parser?branch=master)
+# Condition Parser [![Tests](https://github.com/movisio/condition-parser/workflows/Tests/badge.svg?branch=master)](https://github.com/movisio/condition-parser/actions) [![Coverage Status](https://coveralls.io/repos/github/movisio/condition-parser/badge.svg?branch=master)](https://coveralls.io/github/movisio/condition-parser?branch=master)
 
 A simple condition parsing and evaluation library. Shunting-yard algorithm for parsing strings to expression trees that can ben evaluated later. Supports variables that can be set for each evaluation.
 
