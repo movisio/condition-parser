@@ -17,5 +17,11 @@
   "require-dev": {
     "nette/tester": "^2.2",
     "movisio/nais-cs": "^2.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "movisio/nais-cs": true
+    }
   }
 }
