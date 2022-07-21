@@ -8,7 +8,6 @@ namespace Movisio\ConditionParser\ConditionOperator;
  */
 class Property implements OperatorInterface
 {
-
     /** @var string variable */
     protected $name;
 

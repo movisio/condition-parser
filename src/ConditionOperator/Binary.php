@@ -8,7 +8,6 @@ namespace Movisio\ConditionParser\ConditionOperator;
  */
 class Binary implements OperatorInterface
 {
-
     /** @var OperatorInterface left-hand-subtree  */
     protected $lhs;
 

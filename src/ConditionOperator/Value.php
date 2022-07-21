@@ -8,7 +8,6 @@ namespace Movisio\ConditionParser\ConditionOperator;
  */
 class Value implements OperatorInterface
 {
-
     /** @var mixed value */
     protected $value;
 

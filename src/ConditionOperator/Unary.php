@@ -9,7 +9,6 @@ namespace Movisio\ConditionParser\ConditionOperator;
  */
 class Unary implements OperatorInterface
 {
-
     /** @var OperatorInterface subexpression */
     protected $subExpr;
 

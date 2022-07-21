@@ -15,7 +15,6 @@ use Movisio\ConditionParser\ConditionOperator\OperatorInterface;
  */
 class ConditionParser
 {
-
     /**
      * parses condition and returns evaluable expression tree
      * tree implements toString() for debugging
